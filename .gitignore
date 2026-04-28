@@ -6,6 +6,7 @@ __pycache__/
 .venv/
 venv/
 env/
+data/
 
 # Project artifacts
 data/processed/
@@ -17,6 +18,7 @@ data/processed/
 .idea/
 .DS_Store
 Thumbs.db
+.claude
 
 # Streamlit
 .streamlit/secrets.toml

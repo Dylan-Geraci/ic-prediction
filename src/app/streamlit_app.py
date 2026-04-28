@@ -75,9 +75,9 @@ FEATURE_HELP = {
 # receives the raw value when the user makes a selection.
 VALUE_LABELS: dict[str, dict[str, str]] = {
     "age_of_car": {
-        "Low": "Newer (below average mileage / age)",
-        "Medium": "Average age",
-        "High": "Older (above average mileage / age)",
+        "Low": "Newer (0-3 yrs)",
+        "Medium": "Moderate (3-7 yrs)",
+        "High": "Older (7+ yrs)",
     },
     "segment": {
         # The Kaggle dataset uses Indian-market segment codes. We translate
@@ -113,8 +113,8 @@ VALUE_LABELS: dict[str, dict[str, str]] = {
         "High": "High (4-5 stars)",
     },
     "rear_brakes_type": {
-        "Drum": "Drum (older, budget design)",
-        "Disc": "Disc (modern, better stopping power)",
+        "Drum": "Drum (older)",
+        "Disc": "Disc (modern)",
     },
 }
 

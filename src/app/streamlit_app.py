@@ -535,7 +535,7 @@ def _risk_message(prob: float) -> str:
 
 def _render_result(prob: float) -> None:
     pct = prob * 100
-    fill_pct = min(max(prob * 100 / 0.20 * 100, 4), 100)  # cap visual at 20%
+    fill_pct = min(max((prob / 0.20) * 100, 4), 100)  # cap visual at 20%
     badge = _risk_badge(prob)
     message = _risk_message(prob)
 

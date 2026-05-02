@@ -49,10 +49,9 @@ MODEL_CLASSES: list[type[BNModel]] = [ExpertDAG, HillClimbModel, TANModel]
 N_SPLITS = 5
 RANDOM_STATE = 42
 
-# Evaluation sample size. The full dataset has ~58k rows; using all of it
-# bloats fit time without changing the relative ranking of the three models.
-# A 20k-row stratified subsample gives stable rankings in well under a minute.
-EVAL_SAMPLE_SIZE = 20_000
+# Evaluation sample size. ``None`` means "use the full dataset" (~58k rows).
+# Set to an int to subsample for faster iteration.
+EVAL_SAMPLE_SIZE: int | None = None
 
 
 def _evaluate_fold(
@@ -162,8 +161,8 @@ def main() -> None:
     warnings.filterwarnings("ignore")  # silence pgmpy's deprecation chatter
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    print(f"Loading data and running {N_SPLITS}-fold CV on "
-          f"{EVAL_SAMPLE_SIZE} rows ...")
+    rows_label = "all available" if EVAL_SAMPLE_SIZE is None else f"{EVAL_SAMPLE_SIZE}"
+    print(f"Loading data and running {N_SPLITS}-fold CV on {rows_label} rows ...")
     long_df = run_comparison()
     summary = summarize(long_df)
 

@@ -1,1 +1,1 @@
-Tree-Augmented Naive Bayes
+Hill-Climb (BIC)

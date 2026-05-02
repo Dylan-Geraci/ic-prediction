@@ -79,12 +79,10 @@ class BNModel(ABC):
             if col not in self.network.nodes():
                 self.network.add_node(col)
 
-        self.network.fit(
-            df,
-            estimator=BayesianEstimator,
-            prior_type="BDeu",
-            equivalent_sample_size=10,
+        cpds = BayesianEstimator(self.network, df).get_parameters(
+            prior_type="BDeu", equivalent_sample_size=10
         )
+        self.network.add_cpds(*cpds)
         self._inference = VariableElimination(self.network)
         self._feature_columns = [c for c in df.columns if c != TARGET]
         return self

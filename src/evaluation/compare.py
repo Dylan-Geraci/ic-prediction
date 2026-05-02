@@ -29,7 +29,7 @@ matplotlib.use("Agg")  # non-interactive backend; we save PNGs not show windows
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, train_test_split
 
 from src.data.load import load_clean
 from src.data.preprocess import TARGET
@@ -93,14 +93,10 @@ def run_comparison(
     if sample_size is not None and sample_size < len(df):
         # Stratify the subsample on the target so each fold sees realistic
         # claim prevalence even when ``sample_size`` is small.
-        df = (
-            df.groupby(TARGET, group_keys=False)
-            .apply(lambda g: g.sample(
-                n=int(round(len(g) / len(df) * sample_size)),
-                random_state=RANDOM_STATE,
-            ))
-            .reset_index(drop=True)
+        _, df = train_test_split(
+            df, test_size=sample_size, stratify=df[TARGET], random_state=RANDOM_STATE
         )
+        df = df.reset_index(drop=True)
 
     y = df[TARGET].to_numpy()
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)

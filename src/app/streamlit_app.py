@@ -158,245 +158,262 @@ PREFERRED_ORDER: dict[str, list[str]] = {
 
 CUSTOM_CSS = """
 <style>
-  /* Reset Streamlit's default container padding so we can control layout */
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+  :root {
+    --bg:        #C4CAE3;
+    --surface:   #FFFFFF;
+    --sidebar:   #FFFFFF;
+    --accent:    #5D6893;
+    --accent2:   #7a82a8;
+    --text:      #5D6893;
+    --muted:     #8a92b5;
+    --border:    rgba(93,104,147,0.20);
+    --input-bg:  #C4CAE3;
+    --mono:      'Space Mono', 'Courier New', monospace;
+    --sidebar-w: 0px;
+  }
+
+  html, body, [class*="css"], .stApp {
+    font-family: var(--mono);
+    color: var(--text);
+    background: var(--bg);
+  }
+  .stApp { background: var(--bg); }
+
   .block-container {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 84px !important;
+    padding-bottom: 5rem;
     max-width: 1180px;
   }
 
-  /* Page background and base typography */
-  html, body, [class*="css"], .stApp {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                 Helvetica, Arial, sans-serif, "Apple Color Emoji",
-                 "Segoe UI Emoji";
-    color: #050505;
-  }
-  .stApp {
-    background: #F0F2F5;
+  div[data-testid="stSidebar"] > div:first-child {
+    padding-top: 80px !important;
   }
 
-  /* Top header bar */
+  /* ── Topbar ── */
   .topbar {
     background: #FFFFFF;
-    border-bottom: 1px solid #DADDE1;
-    padding: 14px 24px;
-    margin: -2rem -2rem 24px -2rem;
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-w);
+    right: 0;
+    z-index: 999;
+    height: 68px;
+    box-sizing: border-box;
+    transition: left 0.3s ease;
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
   .topbar-mark {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: #1877F2;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    font-weight: 800;
-    font-size: 16px;
-    letter-spacing: -0.5px;
+    align-items: center; justify-content: center;
+    color: #fff;
+    font-weight: 700; font-size: 20px;
+    font-family: var(--mono);
+    flex-shrink: 0;
   }
   .topbar-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: #050505;
-    line-height: 1;
+    font-size: 24px; font-weight: 700;
+    color: var(--text);
+    font-family: var(--mono);
+    letter-spacing: 0.02em; line-height: 1;
+    text-align: center;
   }
   .topbar-sub {
-    font-size: 12px;
-    color: #65676B;
-    margin-top: 3px;
+    font-size: 13px; color: var(--muted);
+    margin-top: 4px; font-family: var(--mono);
+    text-align: center;
   }
 
-  /* Generic card */
+  /* ── Cards ── */
   .card {
-    background: #FFFFFF;
-    border: 1px solid #DADDE1;
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px; padding: 28px;
+    box-shadow: 0 2px 8px rgba(93,104,147,0.10);
   }
-  .card + .card {
-    margin-top: 16px;
-  }
+  .card + .card { margin-top: 16px; }
 
-  /* Section title within main content */
+  /* ── Section labels ── */
   .section-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    color: #65676B;
-    margin-bottom: 6px;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--muted); margin-bottom: 6px;
+    font-family: var(--mono);
   }
   .section-heading {
-    font-size: 18px;
-    font-weight: 700;
-    color: #050505;
-    margin: 0 0 12px 0;
+    font-size: 30px; font-weight: 700;
+    color: var(--text); margin: 0 0 14px 0;
+    font-family: var(--mono);
   }
 
-  /* Sidebar styling */
+  /* ── Sidebar ── */
   div[data-testid="stSidebar"] {
-    background: #FFFFFF;
-    border-right: 1px solid #DADDE1;
-  }
-  div[data-testid="stSidebar"] > div:first-child {
-    padding-top: 1rem;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
   }
   .sidebar-group-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    color: #65676B;
-    margin: 18px 0 6px 0;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #E4E6EB;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin: 18px 0 6px 0;
+    padding-bottom: 4px; border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
   }
   div[data-testid="stSidebar"] label {
-    font-weight: 600;
-    color: #050505;
-    font-size: 13px;
+    font-weight: 700; color: var(--text);
+    font-size: 12px; font-family: var(--mono);
   }
-
-  /* Sidebar primary action button */
   div[data-testid="stSidebar"] .stButton > button {
-    background: #1877F2;
-    color: #FFFFFF;
-    border: 1px solid #1877F2;
-    border-radius: 6px;
-    font-weight: 600;
-    padding: 8px 16px;
+    background: var(--input-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px; font-weight: 700;
+    font-family: var(--mono); font-size: 13px;
+    padding: 10px 18px; letter-spacing: 0.02em;
     transition: background 0.15s ease;
   }
   div[data-testid="stSidebar"] .stButton > button:hover {
-    background: #166FE5;
-    border-color: #166FE5;
+    background: #b3b9d6; border-color: var(--accent);
   }
-  div[data-testid="stSidebar"] .stButton > button:active {
-    background: #1463CC;
+  div[data-testid="stSidebar"] div[data-baseweb="select"] > div {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px; font-family: var(--mono);
+    font-size: 12px; color: var(--text);
+  }
+  div[data-testid="stSidebar"] div[data-baseweb="select"] > div:hover {
+    border-color: var(--accent);
+  }
+  div[data-testid="stSidebar"] div[data-baseweb="select"] span {
+    font-family: var(--mono); font-size: 12px; color: var(--text);
+  }
+  div[data-baseweb="popover"] { font-family: var(--mono); }
+  div[data-baseweb="popover"] li {
+    font-family: var(--mono); font-size: 12px; color: var(--text);
+  }
+  div[data-testid="stSidebar"] .stTooltipIcon svg { fill: var(--muted); }
+  div[data-testid="stSidebar"] p,
+  div[data-testid="stSidebar"] span,
+  div[data-testid="stSidebar"] div {
+    font-family: var(--mono); color: var(--text);
+  }
+  div[data-testid="stSidebar"] ::-webkit-scrollbar { width: 4px; }
+  div[data-testid="stSidebar"] ::-webkit-scrollbar-thumb {
+    background: rgba(93,104,147,0.25); border-radius: 4px;
   }
 
-  /* Result block */
+  /* ── Result ── */
   .result-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-    color: #65676B;
+    font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--muted); font-family: var(--mono);
   }
   .result-value {
-    font-size: 44px;
-    font-weight: 700;
-    color: #050505;
-    line-height: 1.1;
-    margin: 6px 0 4px 0;
-    letter-spacing: -1px;
+    font-size: 52px; font-weight: 700; color: var(--text);
+    line-height: 1.05; margin: 8px 0 4px 0;
+    font-family: var(--mono); letter-spacing: -1px;
   }
   .result-sub {
-    font-size: 14px;
-    color: #65676B;
-    margin: 0 0 14px 0;
+    font-size: 20px; color: var(--muted);
+    margin: 0 0 16px 0; font-family: var(--mono);
   }
-
-  /* Risk badge */
   .risk-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 12px;
-    letter-spacing: 0.2px;
+    display: inline-block; padding: 4px 12px; border-radius: 6px;
+    font-weight: 700; font-size: 11px; font-family: var(--mono);
+    letter-spacing: 0.06em; text-transform: uppercase;
     border: 1px solid transparent;
   }
-  .risk-low  { background: #E7F3E8; color: #1B5E20; border-color: #C5E1C7; }
-  .risk-mid  { background: #FFF7E0; color: #6B4F00; border-color: #F4E6B0; }
-  .risk-high { background: #FCE7E9; color: #9A1B27; border-color: #F4C7CC; }
+  .risk-low  { background: #d4ecda; color: #1B5E20; border-color: #aed4b7; }
+  .risk-mid  { background: #f5ecc8; color: #5c4500; border-color: #ddd0a0; }
+  .risk-high { background: #f5cfd3; color: #7b1020; border-color: #e0aaaf; }
 
-  /* Gauge */
+  /* ── Gauge ── */
   .gauge-track {
-    height: 8px;
-    border-radius: 999px;
-    background: #E4E6EB;
-    overflow: hidden;
-    margin: 14px 0 6px 0;
+    height: 8px; border-radius: 999px;
+    background: rgba(93,104,147,0.15);
+    overflow: hidden; margin: 16px 0 6px 0;
   }
   .gauge-fill {
-    height: 100%;
-    border-radius: 999px;
-    background: #1877F2;
-    transition: width 0.4s ease;
+    height: 100%; border-radius: 999px;
+    background: var(--accent); transition: width 0.5s ease;
   }
   .gauge-scale {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: #8A8D91;
+    display: flex; justify-content: space-between;
+    font-size: 10px; color: var(--muted); font-family: var(--mono);
   }
 
-  /* What-if note */
+  /* ── What-if ── */
   .whatif {
-    margin-top: 20px;
-    padding: 12px 14px;
-    background: #F7F8FA;
-    border: 1px solid #E4E6EB;
-    border-radius: 6px;
-    font-size: 13px;
-    color: #050505;
+    margin-top: 20px; padding: 12px 16px;
+    background: rgba(93,104,147,0.08);
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 12px; color: var(--text);
+    font-family: var(--mono); line-height: 1.6;
   }
-  .whatif strong { color: #050505; }
+  .whatif strong { color: var(--accent); }
 
-  /* Empty state */
-  .empty {
-    text-align: center;
-    padding: 40px 24px;
-    color: #65676B;
-  }
+  /* ── Empty state ── */
+  .empty { text-align: center; padding: 56px 24px; }
   .empty .empty-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #050505;
-    margin-bottom: 6px;
+    font-size: 30px; font-weight: 700; color: var(--text);
+    margin-bottom: 10px; font-family: var(--mono); letter-spacing: 0.01em;
   }
   .empty p {
-    font-size: 14px;
-    margin: 0;
+    font-size: 20px; color: var(--muted);
+    font-family: var(--mono); line-height: 1.6; margin: 0;
   }
+  .empty strong { color: var(--accent); font-weight: 700; }
 
-  /* Info card on the right */
+  /* ── Info card ── */
   .info-list {
-    margin: 0;
-    padding-left: 18px;
-    color: #050505;
-    font-size: 13.5px;
-    line-height: 1.55;
+    margin: 0; padding-left: 20px;
+    color: var(--text); font-size: 12.5px;
+    font-family: var(--mono); line-height: 1.7;
   }
-  .info-list li { margin-bottom: 6px; }
+  .info-list li { margin-bottom: 8px; }
   .info-list li:last-child { margin-bottom: 0; }
 
-  /* Footer */
+  /* ── Footer ── */
   .app-footer {
-    margin-top: 28px;
-    padding-top: 16px;
-    border-top: 1px solid #DADDE1;
-    font-size: 12px;
-    color: #65676B;
-    text-align: center;
+    position: fixed; bottom: 0;
+    left: var(--sidebar-w); right: 0;
+    z-index: 999; background: #FFFFFF;
+    border-top: 1px solid var(--border);
+    padding: 14px 24px;
+    font-size: 13px; color: var(--muted);
+    text-align: center; font-family: var(--mono); line-height: 1.8;
+    transition: left 0.3s ease;
   }
+  .app-footer strong { color: var(--text); }
   .app-footer code {
-    background: #F0F2F5;
-    color: #050505;
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 12px;
+    background: var(--input-bg); color: var(--accent);
+    padding: 1px 6px; border-radius: 4px;
+    font-size: 12px; font-family: var(--mono); font-style: italic;
   }
 
-  /* Hide Streamlit's own header/menu (cleaner top edge) */
+  /* ── Hide Streamlit chrome ── */
   header[data-testid="stHeader"] { display: none; }
+
+  /* ── Lock sidebar open ── */
+  button[data-testid="collapsedControl"],
+  div[data-testid="stSidebarCollapseButton"],
+  button[kind="header"][aria-label="Close sidebar"],
+  section[data-testid="stSidebar"] button[aria-label="Close sidebar"],
+  section[data-testid="stSidebar"] > div > div > button {
+    display: none !important;
+  }
 </style>
 """
 
@@ -429,12 +446,36 @@ def _render_topbar() -> None:
     st.markdown(
         """
         <div class='topbar'>
-          <span class='topbar-mark'>S</span>
-          <div>
-            <div class='topbar-title'>Second-hand Car Assistant</div>
-            <div class='topbar-sub'>Insurance-claim risk estimator</div>
+          <div class='topbar-inner'>
+            <div>
+              <div class='topbar-title'>Second-hand Car Assistant</div>
+              <div class='topbar-sub'>Insurance-claim risk estimator</div>
+            </div>
           </div>
         </div>
+        <script>
+          (function() {
+            function updateSidebarOffset() {
+              var sidebar = window.parent.document.querySelector('[data-testid="stSidebar"]');
+              var root = window.parent.document.documentElement;
+              if (sidebar) {
+                var w = sidebar.getBoundingClientRect().width;
+                root.style.setProperty('--sidebar-w', w + 'px');
+              } else {
+                root.style.setProperty('--sidebar-w', '0px');
+              }
+            }
+            updateSidebarOffset();
+            var observer = new ResizeObserver(updateSidebarOffset);
+            function attachObserver() {
+              var sidebar = window.parent.document.querySelector('[data-testid="stSidebar"]');
+              if (sidebar) { observer.observe(sidebar); }
+              else { setTimeout(attachObserver, 200); }
+            }
+            attachObserver();
+            window.parent.addEventListener('resize', updateSidebarOffset);
+          })();
+        </script>
         """,
         unsafe_allow_html=True,
     )
@@ -442,9 +483,10 @@ def _render_topbar() -> None:
 
 def _render_sidebar(states: dict[str, list[str]]) -> tuple[dict[str, str], bool]:
     st.sidebar.markdown(
-        "<div style='font-size:14px;font-weight:600;color:#050505;"
-        "margin:4px 0 4px 0;'>Build your scenario</div>"
-        "<div style='font-size:12.5px;color:#65676B;margin-bottom:8px;'>"
+        "<div style='font-size:13px;font-weight:700;font-family:\"Space Mono\",monospace;"
+        "color:#5D6893;margin:4px 0 4px 0;letter-spacing:0.02em;'>Build your scenario</div>"
+        "<div style='font-size:11px;font-family:\"Space Mono\",monospace;color:#8a92b5;"
+        "margin-bottom:10px;line-height:1.5;'>"
         "Describe the car, the driver, and where it is based.</div>",
         unsafe_allow_html=True,
     )
@@ -539,9 +581,8 @@ def _render_empty() -> None:
         """
         <div class='card'>
           <div class='empty'>
-            <div class='empty-title'>Ready when you are</div>
-            <p>Pick the car, driver, and location details on the left,
-            then choose <strong>Estimate risk</strong>.</p>
+            <div class='empty-title'>Ready When You Are</div>
+            <p>When you are ready, enter the details on the left and choose <strong>Estimate Risk</strong>.</p>
           </div>
         </div>
         """,
@@ -576,7 +617,8 @@ def _render_footer(winner_name: str) -> None:
         <div class='app-footer'>
           Powered by <strong>{winner_name}</strong>. Selected by 5-fold
           stratified cross-validation. Full evaluation in
-          <code>results/comparison.csv</code>.
+          <code>results/comparison.csv</code>.<br>
+          Created by Dylan Geraci &amp; Brianna Zaffina
         </div>
         """,
         unsafe_allow_html=True,

@@ -20,6 +20,8 @@ log-likelihood, BIC, accuracy, F1, Brier score, ROC-AUC, and inference latency.
 
 ## Dataset
 
+Dataset Link: https://www.kaggle.com/datasets/ifteshanajnin/carinsuranceclaimprediction-classification
+
 `data/train.csv` is the Kaggle *Car Insurance Claim Prediction* dataset
 (features: vehicle age, make, fuel type, engine type, etc.; binary target
 `is_claim`). `data/test.csv` from the same source is unlabeled (Kaggle competition
